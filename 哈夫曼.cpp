@@ -1,9 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <map>          // 改用 map 替代 unordered_map
+#include <unordered_map>
 #include <queue>
-#include <cstring>      // 添加 cstring 用于 NULL
 using namespace std;
 
 // ================= 节点 =================
@@ -16,8 +15,8 @@ struct Node {
     Node(unsigned char c, int f){
         ch = c;
         freq = f;
-        left = NULL;     // 改用 NULL
-        right = NULL;    // 改用 NULL
+        left = nullptr;
+        right = nullptr;
     }
 };
 
@@ -31,7 +30,7 @@ struct cmp {
 // ================= 统计频率 =================
 vector<int> getFrequency(const string& filename){
     vector<int> freq(256,0);
-    ifstream fin(filename.c_str(), ios::binary);  // 使用 c_str()
+    ifstream fin(filename, ios::binary);
 
     if(!fin){
         cout<<"打开文件失败!"<<endl;
@@ -56,7 +55,7 @@ Node* buildTree(const vector<int>& freq){
             pq.push(new Node(i,freq[i]));
     }
 
-    if(pq.empty()) return NULL;  // 改用 NULL
+    if(pq.empty()) return nullptr;
 
     // 单字符特殊处理
     if(pq.size()==1){
@@ -82,7 +81,7 @@ Node* buildTree(const vector<int>& freq){
 
 // ================= 生成编码 =================
 void buildCode(Node* root,string code,
-               map<unsigned char,string>& codes){  // 改用 map
+               unordered_map<unsigned char,string>& codes){
 
     if(!root) return;
 
@@ -99,11 +98,11 @@ void buildCode(Node* root,string code,
 // ================= 压缩 =================
 void encodeFile(const string& input,
                 const string& output,
-                map<unsigned char,string>& codes,  // 改用 map
-                vector<int> freq){                 // 改为值传递
+                unordered_map<unsigned char,string>& codes,
+                vector<int>& freq){
 
-    ifstream fin(input.c_str(), ios::binary);      // 使用 c_str()
-    ofstream fout(output.c_str(), ios::binary);    // 使用 c_str()
+    ifstream fin(input,ios::binary);
+    ofstream fout(output,ios::binary);
 
     if(!fin || !fout){
         cout<<"文件打开失败"<<endl;
@@ -161,8 +160,8 @@ void encodeFile(const string& input,
 
 // ================= 解压 =================
 void decodeFile(const string& input,const string& output){
-    ifstream fin(input.c_str(), ios::binary);      // 使用 c_str()
-    ofstream fout(output.c_str(), ios::binary);    // 使用 c_str()
+    ifstream fin(input,ios::binary);
+    ofstream fout(output,ios::binary);
 
     if(!fin || !fout){
         cout<<"文件打开失败"<<endl;
@@ -221,7 +220,7 @@ int main(){
         vector<int> freq = getFrequency(in);
         Node* root = buildTree(freq);
 
-        map<unsigned char,string> codes;  // 改用 map
+        unordered_map<unsigned char,string> codes;
         buildCode(root,"",codes);
 
         encodeFile(in,out,codes,freq);
