@@ -1,0 +1,13 @@
+哈夫曼编码是一种用于无损数据压缩的熵编码算法。它的核心思想是根据字符出现的频率来构建最优二叉树，频率越高的字符使用越短的编码，频率越低的字符使用越长的编码。这种编码方式由大卫·哈夫曼于1952年在他的博士论文中提出。
+
+哈夫曼编码的工作原理如下：首先统计输入数据中每个字符出现的频率，然后根据这些频率构建一个优先队列，每次取出频率最小的两个节点合并成一个新节点，新节点的频率为两个子节点频率之和，重复这个过程直到只剩下一个节点，这样就形成了一棵哈夫曼树。接着从根节点开始，向左走标记为0，向右走标记为1，每个叶子节点对应的路径编码就是该字符的哈夫曼编码。
+
+哈夫曼编码广泛应用于各种数据压缩场景中，例如ZIP文件压缩、JPEG图像压缩、MP3音频压缩等。与其他压缩算法相比，哈夫曼编码的优点是实现相对简单且压缩效果良好，特别适用于字符频率分布不均匀的数据。在文本文件中，常见字母如'e'、't'、'a'出现频率较高，会获得较短的编码，而罕见字符则会获得较长的编码。
+
+哈夫曼编码属于前缀编码，即没有任何字符的编码是其他字符编码的前缀，这保证了解码时不会产生歧义。解码过程非常简单，只需要根据哈夫曼树从根节点开始，根据编码串的每一位0或1向下遍历，到达叶子节点时就输出对应的字符，然后返回根节点继续解码下一个字符。
+
+The quick brown fox jumps over the lazy dog. This sentence contains every letter of the English alphabet. Huffman coding is very efficient for English text because the frequency distribution of letters is highly uneven. For example, space and letter 'e' appear most frequently, while letters like 'z' and 'q' appear rarely. In Chinese text, the frequency distribution of characters is also uneven, with common characters like '的'、'一'、'了' appearing much more often than rare characters.
+
+哈夫曼编码虽然压缩效果不错，但它也有一定的局限性。对于字符频率分布比较均匀的数据，哈夫曼编码的压缩效果就不太理想。此外，哈夫曼编码需要在压缩后的数据中附带编码表信息，以便解码时使用，对于非常短的数据来说，编码表本身可能占据较大空间，导致压缩后文件反而变大。因此实际应用中常常将哈夫曼编码与其他算法结合使用，如DEFLATE算法就结合了LZ77和哈夫曼编码。
+
+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}[]|:;"'<>,.?/~` 各种不同的字符能够帮助测试哈夫曼编码对不同符号的处理能力。重复重复重复重复重复重复重复重复重复重复重复重复重复重复重复重复重复重复这段文字用来增加某些字符的频率，使得频率分布更加不均匀，从而测试压缩率的极限情况。
